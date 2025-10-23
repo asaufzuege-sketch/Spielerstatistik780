@@ -365,7 +365,7 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0; /* kein vertikaler Abstand innerhalb einer Reihe */
+  gap: 0 8px; /* vertikal 0, horizontal 8px Abstand zwischen Buttons in einer Reihe */
   width: 100%;
   margin: 0; /* entfernt extra Abstand */
 }
