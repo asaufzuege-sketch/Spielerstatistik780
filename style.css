@@ -363,11 +363,10 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4px 8px;
+  gap: 0.2em 6px; /* vertikal sehr klein, horizontal 6px */
   width: 100%;
   position: relative;
 }
-
 /* Optional: mehr Abstand zwischen oberen und unteren Button-Reihen */
 .period-buttons.top-row {
   margin-bottom: 0.2em; /* minimaler Abstand nach unten für die Zwischentitel */
