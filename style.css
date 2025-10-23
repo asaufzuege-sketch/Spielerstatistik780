@@ -370,11 +370,11 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 
 /* Optional: mehr Abstand zwischen oberen und unteren Button-Reihen */
 .period-buttons.top-row {
-  margin-bottom: 1.1em; /* minimaler Abstand nach unten für die Zwischentitel */
+  margin-bottom: 0.6em; /* minimaler Abstand nach unten für die Zwischentitel */
 }
 
 .period-buttons.bottom-row {
-  margin-top: 1.1em; /* minimaler Abstand nach oben für die Zwischentitel */
+  margin-top: 0.6em; /* minimaler Abstand nach oben für die Zwischentitel */
 }
 .time-btn {
   border: none;
