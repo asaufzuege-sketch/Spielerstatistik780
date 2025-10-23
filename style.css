@@ -337,56 +337,54 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 }
 
 .period {
-  position: relative; /* für absolute Positionierung der Zwischentitel */
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto minmax(1.4em, auto) auto; /* obere Buttons – Text – untere Buttons */
+  align-items: center;
+  justify-items: center;
+  row-gap: 2px;          /* minimaler Abstand oberhalb/unterhalb der Schrift */
+  column-gap: 12px;      /* horizontaler Abstand zwischen Buttons */
   padding: 6px 10px;
   background: rgba(255,255,255,0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 4px; /* minimaler Abstand oben/unten */
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
 }
-
 .period-title {
+  grid-column: 1 / -1;
   font-weight: bold;
   text-align: center;
-  margin: 2px 0; /* kleiner Abstand */
+  margin-bottom: 4px;
   font-size: 0.85rem;
 }
 
+.period-buttons.top-row,
+.period-buttons.bottom-row,
 .period-numbers {
-  position: absolute;
-  top: 50%; /* vertikal genau in der Mitte zwischen den Buttons */
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between; /* horizontal über die Buttons verteilen */
-  font-size: 0.9rem;
+  display: contents; /* sorgt für Spaltenausrichtung */
+}
+
+/* Die mittleren Beschriftungen */
+.period-numbers span {
   color: #ccc;
-  transform: translateY(-50%); /* exakte vertikale Zentrierung */
-  pointer-events: none; /* Titel blockiert keine Buttons */
-  margin: 0;
-  z-index: 10;
+  font-size: 0.8rem;
+  line-height: 1;
+  justify-self: center;
+  align-self: center;
 }
 
-.period-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0 12px; /* vertikal 0, horizontal 8px Abstand zwischen Buttons in einer Reihe */
-  width: 100%;
-  margin: 0; /* entfernt extra Abstand */
-}
-
+/* Buttons */
 .time-btn {
+  width: 100%;
+  height: 20px; /* dünnere Buttons */
   border: none;
   border-radius: 6px;
   font-weight: 600;
   font-size: 12px;
-  height: 20px; /* Buttons dünner */
   cursor: pointer;
   transition: transform 0.1s, background 0.2s;
 }
 
+/* Farben */
 .period-buttons.top-row .time-btn { background: var(--btn-top-bg); }
 .period-buttons.bottom-row .time-btn { background: var(--btn-bottom-bg); }
 
@@ -394,6 +392,7 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period-buttons.bottom-row .time-btn:hover { background-color: #ffd3d3; }
 
 .time-btn:active { transform: scale(1.05); }
+
 /* =========================================
    RESPONSIVE
    ========================================= */
