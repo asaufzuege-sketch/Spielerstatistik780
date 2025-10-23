@@ -354,20 +354,28 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 
 .period-numbers {
   display: flex;
-  justify-content: space-between; /* horizontal genau zwischen den Buttons */
-  align-items: center;            /* vertikal zentriert im Container */
+  justify-content: space-between; /* horizontal zentrieren zwischen Buttons */
   font-size: 0.9rem;
   color: #ccc;
-  margin: -16px 0;                /* verschiebt die Titel nach oben, damit sie zwischen den Buttons liegen */
-  pointer-events: none;           /* verhindert, dass man die Zahlen versehentlich anklickt */
+  text-align: center;
+  margin: 0; /* kein overlap mehr */
 }
 .period-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 4px 8px;
   width: 100%;
+  position: relative;
 }
 
+/* Optional: mehr Abstand zwischen oberen und unteren Button-Reihen */
+.period-buttons.top-row {
+  margin-bottom: 24px; /* Abstand zum Zwischentitel */
+}
+
+.period-buttons.bottom-row {
+  margin-top: 24px; /* Abstand zum Zwischentitel */
+}
 .time-btn {
   border: none;
   border-radius: 6px;
