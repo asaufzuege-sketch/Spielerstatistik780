@@ -324,8 +324,8 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
    ========================================= */
 .time-tracking-box {
   display: flex;
-  flex-direction: row;          /* nebeneinander statt untereinander */
-  justify-content: space-between;
+  flex-direction: column;   /* wieder untereinander */
+  justify-content: flex-start;
   align-items: stretch;
   background: #1a1a1a;
   border: 2px solid #333;
@@ -334,9 +334,9 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
   color: #fff;
   font-size: 0.95rem;
   height: 100%;
-  gap: 10px;                   /* Abstand zwischen den drei Boxen */
+  gap: 10px;                /* Abstand zwischen Perioden */
+  width: 100%;
 }
-
 /* jede der drei inneren Boxen */
 .period {
   flex: 1;                     /* gleiche Breite für alle drei */
