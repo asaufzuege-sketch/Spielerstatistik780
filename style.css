@@ -339,8 +339,9 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 }
 /* jede der drei inneren Boxen */
 .period {
-  flex: 1;                     /* gleiche Breite für alle drei */
-  min-width: 0;                /* verhindert Überlauf */
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
   padding: 6px 10px;
@@ -348,6 +349,7 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 .period-title {
   font-weight: bold;
