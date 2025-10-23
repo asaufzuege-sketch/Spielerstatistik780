@@ -325,28 +325,25 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .time-tracking-box {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  justify-content: flex-end;
   background: #1a1a1a;
   border: 2px solid #333;
   border-radius: 10px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #fff;
   font-size: 0.95rem;
   height: 100%;
-  gap: 12px;
-  width: 100%; /* Hauptbox volle Breite */
+  gap: 10px;
 }
 
 .period {
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: 100%; /* jede Periodenbox volle Breite */
+  gap: 4px;
 }
 
 .period-title {
@@ -354,48 +351,41 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
   text-align: center;
   margin-bottom: 4px;
 }
+
 .period-numbers {
   display: flex;
-  justify-content: center; /* Ganze Zeile in die Mitte */
-  align-items: center;
+  justify-content: space-between; /* horizontal genau zwischen den Buttons */
+  align-items: center;            /* vertikal zentriert im Container */
   font-size: 0.9rem;
   color: #ccc;
-  width: 100%;
-  text-align: center;
-  gap: 10px; /* Abstand zwischen den Zahlen */
-  margin: 0 auto;
+  margin: -16px 0;                /* verschiebt die Titel nach oben, damit sie zwischen den Buttons liegen */
+  pointer-events: none;           /* verhindert, dass man die Zahlen versehentlich anklickt */
 }
-.period-numbers span {
-  display: inline-block;
-  text-align: center;
-  min-width: 28px; /* sorgt für gleichmäßige optische Mitte */
-}/* BUTTON-REIHEN */
 .period-buttons {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px 8px;
   width: 100%;
+}
+
+.time-btn {
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
 }
 
 .period-buttons.top-row .time-btn { background: var(--btn-top-bg); }
 .period-buttons.bottom-row .time-btn { background: var(--btn-bottom-bg); }
 
-.time-btn {
-  flex: 1;
-  height: 38px;
-  font-size: 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.1s, background 0.2s;
-}
-
 .period-buttons.top-row .time-btn:hover { background-color: #b2f0b2; }
 .period-buttons.bottom-row .time-btn:hover { background-color: #ffd3d3; }
 
 .time-btn:active { transform: scale(1.05); }
+
 /* =========================================
    RESPONSIVE
    ========================================= */
