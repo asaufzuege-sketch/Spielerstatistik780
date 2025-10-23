@@ -381,11 +381,21 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period-buttons.top-row .time-btn { background: var(--btn-top-bg); }
 .period-buttons.bottom-row .time-btn { background: var(--btn-bottom-bg); }
 
+.time-btn {
+  flex: 1;
+  height: 38px;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
+}
+
 .period-buttons.top-row .time-btn:hover { background-color: #b2f0b2; }
 .period-buttons.bottom-row .time-btn:hover { background-color: #ffd3d3; }
 
 .time-btn:active { transform: scale(1.05); }
-
 /* =========================================
    RESPONSIVE
    ========================================= */
