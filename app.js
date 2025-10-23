@@ -50,7 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
     { num: "", name: "Marco Senn" }
   ];
 
-const categories = ["Shot", "Goal", "Assist", "+/-", "FaceOffs", "FaceOffs Won", "Penaltys"];
+const categories = ["Shot", "Goals", "Assist", "+/-", "FaceOffs", "FaceOffs Won", "Penaltys"];
+
   // persistent state
   let selectedPlayers = JSON.parse(localStorage.getItem("selectedPlayers")) || [];
   let statsData = JSON.parse(localStorage.getItem("statsData")) || {};
@@ -328,7 +329,7 @@ const categories = ["Shot", "Goal", "Assist", "+/-", "FaceOffs", "FaceOffs Won",
 
     document.querySelectorAll(".total-cell").forEach(tc => {
       const cat = tc.dataset.cat;
-      if (cat === "Plus/Minus") {
+      if (cat === "+/-") {
         const vals = selectedPlayers.map(p => Number(statsData[p.name]?.[cat] || 0));
         const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
         tc.textContent = `Ø ${avg}`;
@@ -338,12 +339,12 @@ const categories = ["Shot", "Goal", "Assist", "+/-", "FaceOffs", "FaceOffs Won",
         const percent = totalFace ? Math.round((totals["FaceOffs Won"]/totalFace)*100) : 0;
         const percentColor = percent > 50 ? "#00ff80" : percent < 50 ? "#ff4c4c" : "#ffffff";
         tc.innerHTML = `<span style="color:white">${totals["FaceOffs Won"]}</span> (<span style="color:${percentColor}">${percent}%</span>)`;
-      } else if (cat === "FaceOffs" || ["Tore","Assist","Penaltys"].includes(cat)) {
+      } else if (cat === "FaceOffs" || ["Goal","Assist","Penaltys"].includes(cat)) {
         tc.textContent = totals[cat] || 0;
         tc.style.color = "#ffffff";
-      } else if (cat === "Schüsse") {
+      } else if (cat === "Shot") {
         if (!tc.dataset.opp) tc.dataset.opp = 0;
-        const own = totals["Schüsse"] || 0;
+        const own = totals["Shot"] || 0;
         const opp = Number(tc.dataset.opp) || 0;
         let ownColor = "#ffffff", oppColor = "#ffffff";
         if (own > opp) { ownColor = "#00ff80"; oppColor = "#ff4c4c"; }
@@ -424,7 +425,7 @@ const categories = ["Shot", "Goal", "Assist", "+/-", "FaceOffs", "FaceOffs Won",
 
   // --- CSV Export ---
   exportBtn.addEventListener("click", () => {
-    const rows = [["Spieler", ...categories, "Eiszeit"]];
+    const rows = [["Spieler", ...categories, "Time"]];
     selectedPlayers.forEach(p => {
       const seconds = playerTimes[p.name] || 0;
       const m = String(Math.floor(seconds/60)).padStart(2,"0");
@@ -585,82 +586,40 @@ const categories = ["Shot", "Goal", "Assist", "+/-", "FaceOffs", "FaceOffs Won",
 // Season table, time-tracking buttons at torbild page, final init and helpers
 
   // --- Season table rendering ---
-// --- Season table rendering ---
-function renderSeasonTable() {
-  const container = document.getElementById("seasonContainer");
-  if (!container) return;
-  container.innerHTML = "";
+  function renderSeasonTable() {
+    const container = document.getElementById("seasonContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    const table = document.createElement("table");
+    table.className = "stats-table";
 
-  const table = document.createElement("table");
-  table.className = "stats-table";
+    const headerRow = document.createElement("tr");
+    ["#", "Spieler", ...categories, "Time"].forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
 
-  // Header in der gewünschten Reihenfolge
-const headerTitles = [
-  "Points", "MVP", "Nr", "Name", "Games", "Goals", "Assists", "Points",
-  "+/-", "+/- Ø", "Shots", "Shots/Game", "Goals/Game", "Points/Game",
-  "Penalty", "Goal Value", "FaceOffs", "FaceOffs Won", "FaceOffs %", "Time"
-];
-  const headerRow = document.createElement("tr");
-  headerTitles.forEach(h => {
-    const th = document.createElement("th");
-    th.textContent = h;
-    headerRow.appendChild(th);
-  });
-  table.appendChild(headerRow);
-
-  // Datenzeilen
-  selectedPlayers.forEach(player => {
-    const stats = statsData[player.name] || {};
-    const tr = document.createElement("tr");
-
-    // Berechnete Werte
-    const games = stats.games || 0;
-    const goals = stats.goals || stats["Tore"] || 0;
-    const assists = stats.assists || stats["Assist"] || 0;
-    const points = goals + assists;
-    const plusMinus = stats["Plus/Minus"] || 0;
-    const shots = stats.shots || stats["Schüsse"] || 0;
-    const penalty = stats.penalty || stats["Penaltys"] || 0;
-    const faceOffs = stats.faceOffs || stats["FaceOffs"] || 0;
-    const faceOffsWon = stats.faceOffsWon || stats["FaceOffs Won"] || 0;
-    const faceOffPercent = faceOffs ? Math.round((faceOffsWon / faceOffs) * 100) : 0;
-
-    // Durchschnittswerte
-    const shotsPerGame = games ? (shots / games).toFixed(1) : "0.0";
-    const goalsPerGame = games ? (goals / games).toFixed(1) : "0.0";
-    const pointsPerGame = games ? (points / games).toFixed(1) : "0.0";
-    const plusMinusAvg = games ? (plusMinus / games).toFixed(1) : "0.0";
-
-    // Eiszeit in Minuten:Sekunden
-    const timeSec = playerTimes[player.name] || 0;
-    const mm = String(Math.floor(timeSec / 60)).padStart(2, "0");
-    const ss = String(timeSec % 60).padStart(2, "0");
-    const timeStr = `${mm}:${ss}`;
-
-    // Reihenfolge entsprechend Header
-const rowValues = [
-  stats.points || points || 0, // Points
-  stats.mvp || 0,              // MVP
-  player.num || "",            // Nr
-  player.name || "",           // Name
-  goals, assists, points,
-  plusMinus, plusMinusAvg,
-  shots, shotsPerGame, goalsPerGame, pointsPerGame,
-  penalty, stats.goalValue || 0,
-  faceOffs, faceOffsWon, `${faceOffPercent}%`,
-  timeStr
-];
-    rowValues.forEach(val => {
-      const td = document.createElement("td");
-      td.textContent = val;
-      tr.appendChild(td);
+    players.forEach(player => {
+      const tr = document.createElement("tr");
+      const tdNum = document.createElement("td"); tdNum.textContent = player.num || ""; tr.appendChild(tdNum);
+      const tdName = document.createElement("td"); tdName.textContent = player.name; tr.appendChild(tdName);
+      categories.forEach(cat => {
+        const td = document.createElement("td"); td.textContent = statsData[player.name]?.[cat] ?? 0; tr.appendChild(td);
+      });
+      const tdE = document.createElement("td");
+      const seconds = playerTimes[player.name] || 0;
+      const mm = String(Math.floor(seconds/60)).padStart(2,"0");
+      const ss = String(seconds%60).padStart(2,"0");
+      tdE.textContent = `${mm}:${ss}`;
+      tr.appendChild(tdE);
+      table.appendChild(tr);
     });
 
-    table.appendChild(tr);
-  });
+    container.appendChild(table);
+  }
 
-  container.appendChild(table);
-}
   // --- Pages navigation helpers (already bound earlier but ensure correctness) ---
   function showPage(page) {
     Object.values(pages).forEach(p => { if (p) p.style.display = "none"; });
