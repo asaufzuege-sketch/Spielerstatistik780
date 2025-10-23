@@ -324,8 +324,9 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
    ========================================= */
 .time-tracking-box {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: row;          /* nebeneinander statt untereinander */
+  justify-content: space-between;
+  align-items: stretch;
   background: #1a1a1a;
   border: 2px solid #333;
   border-radius: 10px;
@@ -333,10 +334,13 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
   color: #fff;
   font-size: 0.95rem;
   height: 100%;
-  gap: 10px;
+  gap: 10px;                   /* Abstand zwischen den drei Boxen */
 }
 
+/* jede der drei inneren Boxen */
 .period {
+  flex: 1;                     /* gleiche Breite für alle drei */
+  min-width: 0;                /* verhindert Überlauf */
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
   padding: 6px 10px;
@@ -345,7 +349,6 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
   flex-direction: column;
   gap: 4px;
 }
-
 .period-title {
   font-weight: bold;
   text-align: center;
