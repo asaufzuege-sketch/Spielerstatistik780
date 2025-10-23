@@ -586,41 +586,86 @@ const categories = ["Shot", "Goals", "Assist", "+/-", "FaceOffs", "FaceOffs Won"
 // Season table, time-tracking buttons at torbild page, final init and helpers
 
   // --- Season table rendering ---
-  function renderSeasonTable() {
-    const container = document.getElementById("seasonContainer");
-    if (!container) return;
-    container.innerHTML = "";
-    const table = document.createElement("table");
-    table.className = "stats-table";
+function renderSeasonTable() {
+  const container = document.getElementById("seasonContainer");
+  if (!container) return;
+  container.innerHTML = "";
 
-    const headerRow = document.createElement("tr");
-    ["#", "Spieler", ...categories, "Time"].forEach(h => {
-      const th = document.createElement("th");
-      th.textContent = h;
-      headerRow.appendChild(th);
+  const table = document.createElement("table");
+  table.className = "stats-table";
+
+  // Header-Zeile erzeugen
+  const headerCols = [
+    "Points", "MVP", "Nr", "Name", "Spieler", "Games", 
+    "Goals", "Assists", "Points", "+/-", "Ø +/-",
+    "Shots", "Shots/Game", "Goals/Game", "Points/Game",
+    "Penalty", "Goal Value", "FaceOffs", "FaceOffs Won", "FaceOffs %", "Time"
+  ];
+
+  const headerRow = document.createElement("tr");
+  headerCols.forEach(h => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    headerRow.appendChild(th);
+  });
+  table.appendChild(headerRow);
+
+  // Spielerzeilen
+  players.forEach(player => {
+    const stats = statsData[player.name] || {};
+    const timeSeconds = playerTimes[player.name] || 0;
+    const games = stats.Games || 1; // mindestens 1 Spiel
+    const goals = stats.Goals || 0;
+    const assists = stats.Assist || 0;
+    const points = goals + assists;
+    const plusMinus = stats["+/-"] || 0;
+    const shots = stats.Shot || 0;
+    const penalty = stats.Penaltys || 0;
+    const faceOffs = stats.FaceOffs || 0;
+    const faceOffsWon = stats["FaceOffs Won"] || 0;
+    const faceOffPercent = faceOffs ? Math.round((faceOffsWon / faceOffs) * 100) : 0;
+    const goalValue = shots ? Math.round((goals / shots) * 100) : 0;
+
+    const mm = String(Math.floor(timeSeconds / 60)).padStart(2,"0");
+    const ss = String(timeSeconds % 60).padStart(2,"0");
+    const timeStr = `${mm}:${ss}`;
+
+    const tr = document.createElement("tr");
+    const cells = [
+      points,           // Points
+      "",               // MVP (leer)
+      player.num || "", // Nr
+      player.name,      // Name
+      player.name,      // Spieler
+      games,            // Games
+      goals,            // Goals
+      assists,          // Assists
+      points,           // Points
+      plusMinus,        // +/-
+      Math.round(plusMinus / games), // Ø +/-
+      shots,            // Shots
+      (shots / games).toFixed(2),    // Shots/Game
+      (goals / games).toFixed(2),    // Goals/Game
+      (points / games).toFixed(2),   // Points/Game
+      penalty,          // Penalty
+      goalValue,        // Goal Value
+      faceOffs,         // FaceOffs
+      faceOffsWon,      // FaceOffs Won
+      faceOffPercent + "%", // FaceOff %
+      timeStr           // Time
+    ];
+
+    cells.forEach(c => {
+      const td = document.createElement("td");
+      td.textContent = c;
+      tr.appendChild(td);
     });
-    table.appendChild(headerRow);
 
-    players.forEach(player => {
-      const tr = document.createElement("tr");
-      const tdNum = document.createElement("td"); tdNum.textContent = player.num || ""; tr.appendChild(tdNum);
-      const tdName = document.createElement("td"); tdName.textContent = player.name; tr.appendChild(tdName);
-      categories.forEach(cat => {
-        const td = document.createElement("td"); td.textContent = statsData[player.name]?.[cat] ?? 0; tr.appendChild(td);
-      });
-      const tdE = document.createElement("td");
-      const seconds = playerTimes[player.name] || 0;
-      const mm = String(Math.floor(seconds/60)).padStart(2,"0");
-      const ss = String(seconds%60).padStart(2,"0");
-      tdE.textContent = `${mm}:${ss}`;
-      tr.appendChild(tdE);
-      table.appendChild(tr);
-    });
+    table.appendChild(tr);
+  });
 
-    container.appendChild(table);
-  }
-
-  // --- Pages navigation helpers (already bound earlier but ensure correctness) ---
+  container.appendChild(table);
+}  // --- Pages navigation helpers (already bound earlier but ensure correctness) ---
   function showPage(page) {
     Object.values(pages).forEach(p => { if (p) p.style.display = "none"; });
     if (pages[page]) pages[page].style.display = "block";
