@@ -324,61 +324,58 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
    ========================================= */
 .time-tracking-box {
   display: flex;
-  flex-direction: column;   /* wieder untereinander */
+  flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
   background: #1a1a1a;
   border: 2px solid #333;
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 12px 16px;
   color: #fff;
   font-size: 0.95rem;
   height: 100%;
-  gap: 10px;                /* Abstand zwischen Perioden */
-  width: 100%;
+  gap: 12px;
+  width: 100%; /* Hauptbox volle Breite */
 }
-/* jede der drei inneren Boxen */
+
 .period {
-  flex: 1 1 auto;
-  width: 100%;
-  min-width: 0;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   background: rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  box-sizing: border-box;
+  gap: 8px;
+  width: 100%; /* jede Periodenbox volle Breite */
 }
+
 .period-title {
   font-weight: bold;
   text-align: center;
   margin-bottom: 4px;
 }
-
 .period-numbers {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Ganze Zeile in die Mitte */
+  align-items: center;
   font-size: 0.9rem;
   color: #ccc;
-}
-
-.period-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px 8px;
   width: 100%;
+  text-align: center;
+  gap: 10px; /* Abstand zwischen den Zahlen */
+  margin: 0 auto;
 }
-
-.time-btn {
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 14px;
-  height: 28px;
-  cursor: pointer;
-  transition: transform 0.1s, background 0.2s;
+.period-numbers span {
+  display: inline-block;
+  text-align: center;
+  min-width: 28px; /* sorgt für gleichmäßige optische Mitte */
+}/* BUTTON-REIHEN */
+.period-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
 }
 
 .period-buttons.top-row .time-btn { background: var(--btn-top-bg); }
