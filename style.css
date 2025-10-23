@@ -337,13 +337,14 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 }
 
 .period {
+  position: relative; /* für absolute Positionierung der Zwischentitel */
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
+  padding: 6px 10px;
   background: rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
-  gap: 0.2em; /* minimaler Abstand zwischen allen Elementen */
-  padding: 2px 6px; /* reduziert die Höhe */
+  gap: 4px; /* minimaler Abstand oben/unten */
 }
 
 .period-title {
@@ -354,12 +355,18 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 }
 
 .period-numbers {
+  position: absolute;
+  top: 50%; /* vertikal genau in der Mitte zwischen den Buttons */
+  left: 0;
+  width: 100%;
   display: flex;
-  justify-content: space-between; /* horizontal zwischen Buttons */
-  font-size: 0.8rem;
-  line-height: 1; /* Zeilenhöhe minimal */
+  justify-content: space-between; /* horizontal über die Buttons verteilen */
+  font-size: 0.9rem;
   color: #ccc;
-  margin: 0; /* kein zusätzliches margin */
+  transform: translateY(-50%); /* exakte vertikale Zentrierung */
+  pointer-events: none; /* Titel blockiert keine Buttons */
+  margin: 0;
+  z-index: 10;
 }
 
 .period-buttons {
