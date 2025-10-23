@@ -339,48 +339,43 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period {
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
-  padding: 6px 10px;
   background: rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.2em; /* minimaler Abstand zwischen allen Elementen */
+  padding: 2px 6px; /* reduziert die Höhe */
 }
 
 .period-title {
   font-weight: bold;
   text-align: center;
-  margin-bottom: 4px;
+  margin: 2px 0; /* kleiner Abstand */
+  font-size: 0.85rem;
 }
 
 .period-numbers {
   display: flex;
-  justify-content: space-between; /* horizontal zentrieren zwischen Buttons */
-  font-size: 0.9rem;
+  justify-content: space-between; /* horizontal zwischen Buttons */
+  font-size: 0.8rem;
+  line-height: 1; /* Zeilenhöhe minimal */
   color: #ccc;
-  text-align: center;
-  margin: 0; /* kein overlap mehr */
+  margin: 0; /* kein zusätzliches margin */
 }
+
 .period-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.2em 6px; /* vertikal sehr klein, horizontal 6px */
+  gap: 0; /* kein vertikaler Abstand innerhalb einer Reihe */
   width: 100%;
-  position: relative;
-}
-/* Optional: mehr Abstand zwischen oberen und unteren Button-Reihen */
-.period-buttons.top-row {
-  margin-bottom: 0.2em; /* minimaler Abstand nach unten für die Zwischentitel */
+  margin: 0; /* entfernt extra Abstand */
 }
 
-.period-buttons.bottom-row {
-  margin-top: 0.2em; /* minimaler Abstand nach oben für die Zwischentitel */
-}
 .time-btn {
   border: none;
   border-radius: 6px;
   font-weight: 600;
-  font-size: 14px;
-  height: 24px;
+  font-size: 12px;
+  height: 20px; /* Buttons dünner */
   cursor: pointer;
   transition: transform 0.1s, background 0.2s;
 }
@@ -392,7 +387,6 @@ td[data-cat][data-value=""] { color: var(--cell-zero-color) !important; }
 .period-buttons.bottom-row .time-btn:hover { background-color: #ffd3d3; }
 
 .time-btn:active { transform: scale(1.05); }
-
 /* =========================================
    RESPONSIVE
    ========================================= */
